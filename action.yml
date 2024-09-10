@@ -1,0 +1,8 @@
+name: 'Bedrock Texturepack Encryption'
+author: Zelytra
+description: 'Encrypt texture pack using CI'
+inputs:
+  privateKey:
+    required: true
+    default: 'latest'
+    description: 'The private key used to encode you texture pack'
