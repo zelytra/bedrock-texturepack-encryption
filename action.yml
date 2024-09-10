@@ -2,7 +2,41 @@ name: 'Bedrock Texturepack Encryption'
 author: Zelytra
 description: 'Encrypt texture pack using CI'
 inputs:
-  privateKey:
+  private_key:
     required: true
-    default: 'latest'
-    description: 'The private key used to encode you texture pack'
+    default: ''
+    description: 'The private key used to encode your texture pack'
+
+  texture_pack_path:
+    required: false
+    default: ${{ github.workspace }} # Uses the root of the repository as default
+    description: "The path of your texture pack root folder"
+
+  texture_pack_name:
+    required: true
+    default: "no-name"
+    description: "The name of your texture pack"
+
+  output_encoded_path:
+    required: false
+    default: ${{ github.workspace }}/encoded_pack
+    description: "Path where the encoded texture pack will be saved"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download mcruptil tool from release and encrypt pack
+      run: |
+        wget -O ./mcrputil https://github.com/valaphee/mcrputil/releases/download/1.2.0/mcrputil
+        chmod +x ./mcrputil
+        ./mcrputil encrypt "${{ inputs.texture_pack_path }}" "${{ inputs.output_encoded_path }}/${{ inputs.texture_pack_name}}" --key "${{ inputs.private_key }}"
+      shell: bash
+
+    - name: Upload encoded pack as an artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: encoded-texture-pack
+        path: ${{ inputs.output_encoded_path }}
