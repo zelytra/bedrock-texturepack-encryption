@@ -1,1 +1,1 @@
-# CI - Minecraft Texturepack Encryption (MTE)
+# CI - Bedrock Texturepack Encryption (BTE)
