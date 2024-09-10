@@ -1,0 +1,34 @@
+name: CI Test for Bedrock Texturepack Encryption
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test-encryption:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run custom Bedrock Texturepack Encryption Action
+        uses: ./ # This uses the local action from the root of the repo
+        with:
+          private_key: 'abcdefghijklmnopqrstuvwxyzabcdef' # Replace with a test key or use secrets 32 characters (a-Z,0.9)
+          texture_pack_path: 'pack-example' # Path to the example pack in the repo
+          texture_pack_name: 'test-pack'
+          output_encoded_path: './encoded-pack'
+
+      - name: Verify encoded pack output
+        run: |
+          if [ -d "./encoded-pack/test-pack" ]; then
+            echo "Encryption succeeded!"
+          else
+            echo "Encryption failed."
+            exit 1
+          fi
