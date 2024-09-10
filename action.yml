@@ -1,6 +1,10 @@
 name: 'Bedrock Texturepack Encryption'
 author: Zelytra
 description: 'Encrypt texture pack using CI'
+branding:
+  icon: 'lock'
+  color: 'blue'
+
 inputs:
   private_key:
     required: true
